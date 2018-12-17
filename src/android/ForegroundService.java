@@ -120,7 +120,7 @@ public class ForegroundService extends Service {
        /*  if (Build.VERSION.SDK_INT >= 26) { */
            
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-                mBuilder.setSmallIcon(R.drawable.ic_launcher);
+                mBuilder.setSmallIcon(R.drawable.star_on);
                 mBuilder.setContentTitle("Notification Alert, Click Me!");
                 mBuilder.setContentText("Hi, This is Android Notification Detail!");
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
