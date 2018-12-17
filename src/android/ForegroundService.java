@@ -112,22 +112,17 @@ public class ForegroundService extends Service {
      * by the OS.
      */
     private void keepAwake() {
-        Intent notificationIntent = new Intent(this, WorkoutActivity.class);
+        Intent notificationIntent = new Intent(this, ForegroundService.class);
         PendingIntent pendingIntent=PendingIntent.getActivity(this,0,notificationIntent,0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,1)
-                .setSmallIcon(R.drawable.ic_menu_rotate)
-                .setContentTitle("TEST")
-                .setContentText("HELLO")
-                .setTicker("TICKER") 
-                .setContentIntent(pendingIntent);
-        Notification notification=builder.build();
-        
-            NotificationChannel channel = new NotificationChannel(1, "MyBacchus", NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription("NOTIFICATION_CHANNEL_DESC");
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-        
-        startForeground(NOTIFICATION_ID, notification);
+        String CHANNEL_ID = "my_app";
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                "MyApp", NotificationManager.IMPORTANCE_DEFAULT);
+        ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("deed")
+                .setContentText("eded").build();
+        startForeground(1, notification);
+        //startForeground(NOTIFICATION_ID, notification);
             
 
         /* } else {           
