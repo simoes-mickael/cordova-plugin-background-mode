@@ -130,7 +130,7 @@ public class ForegroundService extends Service {
         wakeLock.acquire();
     }
 
-    * Stop background mode.
+    /* Stop background mode.
     /**
      */
     private void sleepWell() {
