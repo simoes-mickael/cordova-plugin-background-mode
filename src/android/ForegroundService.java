@@ -122,7 +122,7 @@ public class ForegroundService extends Service {
             String channelId = createNotificationChannel(notificationManager);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
             Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.sym_def_app_icon)
                 .setPriority(Notification.PRIORITY_MIN)
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .build();
