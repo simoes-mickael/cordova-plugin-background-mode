@@ -114,30 +114,12 @@ public class ForegroundService extends Service {
     private void keepAwake() {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
-        if (Build.VERSION.SDK_INT >= 26) {
-            String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
-            String channelName = "My Background Service";
-            NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
-            chan.setLightColor(Color.BLUE);
-            chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            assert manager != null;
-            manager.createNotificationChannel(chan);
-        
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
-            Notification notification = notificationBuilder.setOngoing(true)
-                    .setSmallIcon(R.drawable.icon_1)
-                    .setContentTitle("App is running in background")
-                    .setPriority(NotificationManager.IMPORTANCE_MIN)
-                    .setCategory(Notification.CATEGORY_SERVICE)
-                    .build();
-            startForeground(2, notification);
-        } else {
+       
 
-            if (!isSilent) {
-                startForeground(NOTIFICATION_ID, makeNotification());
-            }
+        if (!isSilent) {
+            startForeground(NOTIFICATION_ID, makeNotification());
         }
+       
 
         PowerManager pm = (PowerManager)
                 getSystemService(POWER_SERVICE);
