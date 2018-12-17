@@ -32,6 +32,7 @@ import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.os.Build;
 
 import de.appplant.cordova.plugin.background.ForegroundService.ForegroundBinder;
 
