@@ -118,16 +118,17 @@ public class ForegroundService extends Service {
       
        
        /*  if (Build.VERSION.SDK_INT >= 26) { */
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            String channelId = createNotificationChannel(notificationManager);
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
-            Notification notification = notificationBuilder.setOngoing(true)
-                .setSmallIcon(R.mipmap.sym_def_app_icon)
-                .setPriority(Notification.PRIORITY_MIN)
-                .setCategory(NotificationCompat.CATEGORY_SERVICE)
-                .build();
-
-            startForeground(NOTIFICATION_ID, notification);
+           
+                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+                mBuilder.setSmallIcon(R.drawable.ic_launcher);
+                mBuilder.setContentTitle("Notification Alert, Click Me!");
+                mBuilder.setContentText("Hi, This is Android Notification Detail!");
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    
+                // notificationID allows you to update the notification later on.
+                mNotificationManager.notify(100, mBuilder.build());
+                startForeground(100, mBuilder.mNotification);
+            
 
         /* } else {           
             startForeground(NOTIFICATION_ID, makeNotification());
