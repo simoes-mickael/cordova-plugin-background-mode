@@ -20,13 +20,13 @@
  */
 
 package de.appplant.cordova.plugin.background;
-import android.util.Log;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-
+import android.util.Log;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
@@ -232,15 +232,13 @@ public class BackgroundMode extends CordovaPlugin {
         if (isDisabled || isBind)
             return;
 
-        Intent intent = new Intent(this, ForegroundService.class);
+        Intent intent = new Intent(context, ForegroundService.class);
 
         try {
             context.bindService(intent, connection, BIND_AUTO_CREATE);
             fireEvent(Event.ACTIVATE, null);
             Log.i("LOG_TAG", "service started!");
-            context.startForegroundService(intent);
-                
-           
+            context.startService(intent);
         } catch (Exception e) {
             fireEvent(Event.FAILURE, String.format("'%s'", e.getMessage()));
         }
