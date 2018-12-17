@@ -116,9 +116,9 @@ public class ForegroundService extends Service {
         boolean isSilent    = settings.optBoolean("silent", false);
        
         
-        if (!isSilent) {
+       
             startForeground(NOTIFICATION_ID, makeNotification());
-        }
+       
        
 
         PowerManager pm = (PowerManager)
@@ -174,7 +174,7 @@ public class ForegroundService extends Service {
                 .setSmallIcon(getIconResId(settings));
 
                 if (Build.VERSION.SDK_INT >= 26) {
-                    notification = new Notification.Builder(this, ANDROID_CHANNEL_ID)
+                    notification = new Notification.Builder(context)
                         .setContentTitle("Test")
                         .setContentText("SmartTracker Running")
                         .setAutoCancel(true);
