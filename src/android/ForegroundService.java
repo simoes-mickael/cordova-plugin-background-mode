@@ -115,7 +115,7 @@ public class ForegroundService extends Service {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
        
-
+        
         if (!isSilent) {
             startForeground(NOTIFICATION_ID, makeNotification());
         }
@@ -130,8 +130,8 @@ public class ForegroundService extends Service {
         wakeLock.acquire();
     }
 
+    * Stop background mode.
     /**
-     * Stop background mode.
      */
     private void sleepWell() {
         stopForeground(true);
@@ -173,6 +173,13 @@ public class ForegroundService extends Service {
                 .setOngoing(true)
                 .setSmallIcon(getIconResId(settings));
 
+                if (Build.VERSION.SDK_INT >= 26) {
+                    notification = new Notification.Builder(this, ANDROID_CHANNEL_ID)
+                        .setContentTitle("Test")
+                        .setContentText("SmartTracker Running")
+                        .setAutoCancel(true);
+                
+                } 
         if (settings.optBoolean("hidden", true)) {
             notification.setPriority(Notification.PRIORITY_MIN);
         }
