@@ -112,6 +112,7 @@ public class ForegroundService extends Service {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
         if (Build.VERSION.SDK_INT >= 26) {
+            Context context = getApplicationContext();
             Intent intent = new Intent(context, ForegroundService.class);
             startForegroundService(intent);
         } else {
