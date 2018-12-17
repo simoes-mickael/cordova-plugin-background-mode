@@ -115,18 +115,22 @@ public class ForegroundService extends Service {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
        
-      
+        mNotifyManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannel(mNotifyManager);
+        mBuilder = new NotificationCompat.Builder(mActivity, "YOUR_TEXT_HERE").setSmallIcon(android.R.drawable.stat_sys_download).setColor
+                (ContextCompat.getColor(mActivity, R.color.colorNotification)).setContentTitle("YOUR_TITLE_HERE").setContentText("YOUR_DESCRIPTION_HERE");
+        mNotifyManager.notify(100, mBuilder.build());
        
        /*  if (Build.VERSION.SDK_INT >= 26) { */
            
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
+               /*  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
                 mBuilder.setSmallIcon(R.drawable.star_on);
                 mBuilder.setContentTitle("Notification Alert, Click Me!");
                 mBuilder.setContentText("Hi, This is Android Notification Detail!");
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     
                 // notificationID allows you to update the notification later on.
-                mNotificationManager.notify(100, mBuilder.build());
+                mNotificationManager.notify(100, mBuilder.build()); */
                 startForeground(100, mBuilder.mNotification);
             
 
@@ -146,14 +150,15 @@ public class ForegroundService extends Service {
     }
 
     private String createNotificationChannel(NotificationManager notificationManager){
-        String channelId = "my_service_channelid";
-        String channelName = "My Foreground Service";
-        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-        // omitted the LED color
-        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        notificationManager.createNotificationChannel(channel);
-        return channelId;
+        String name = "FileDownload";
+        String description = "Notifications for download status";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+        NotificationChannel mChannel = new NotificationChannel(name, name, importance);
+        mChannel.setDescription(description);
+        mChannel.enableLights(true);
+        mChannel.setLightColor(Color.BLUE);
+        notificationManager.createNotificationChannel(mChannel);
     }
 
     /* Stop background mode.
