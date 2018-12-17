@@ -115,9 +115,23 @@ public class ForegroundService extends Service {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
        
-        
+      
        
+        if (Build.VERSION.SDK_INT >= 26) {
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            String channelId = createNotificationChannel(notificationManager);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
+            Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .build();
+
+            startForeground(NOTIFICATION_ID, notification);
+
+        } else {           
             startForeground(NOTIFICATION_ID, makeNotification());
+        }
        
        
 
@@ -128,6 +142,17 @@ public class ForegroundService extends Service {
                 PARTIAL_WAKE_LOCK, "BackgroundMode");
 
         wakeLock.acquire();
+    }
+
+    private String createNotificationChannel(NotificationManager notificationManager){
+        String channelId = "my_service_channelid";
+        String channelName = "My Foreground Service";
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+        // omitted the LED color
+        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        notificationManager.createNotificationChannel(channel);
+        return channelId;
     }
 
     /* Stop background mode.
@@ -173,13 +198,7 @@ public class ForegroundService extends Service {
                 .setOngoing(true)
                 .setSmallIcon(getIconResId(settings));
 
-                if (Build.VERSION.SDK_INT >= 26) {
-                    notification = new Notification.Builder(context)
-                        .setContentTitle("Test")
-                        .setContentText("SmartTracker Running")
-                        .setAutoCancel(true);
-                
-                } 
+               
         if (settings.optBoolean("hidden", true)) {
             notification.setPriority(Notification.PRIORITY_MIN);
         }
