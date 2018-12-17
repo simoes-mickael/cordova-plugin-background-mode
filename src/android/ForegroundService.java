@@ -111,9 +111,14 @@ public class ForegroundService extends Service {
     private void keepAwake() {
         JSONObject settings = BackgroundMode.getSettings();
         boolean isSilent    = settings.optBoolean("silent", false);
+        if (Build.VERSION.SDK_INT >= 26) {
+            Intent intent = new Intent(context, ForegroundService.class);
+            startForegroundService(intent);
+        } else {
 
-        if (!isSilent) {
-            startForeground(NOTIFICATION_ID, makeNotification());
+            if (!isSilent) {
+                startForeground(NOTIFICATION_ID, makeNotification());
+            }
         }
 
         PowerManager pm = (PowerManager)
