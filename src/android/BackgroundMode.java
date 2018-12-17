@@ -238,7 +238,8 @@ public class BackgroundMode extends CordovaPlugin {
             context.bindService(intent, connection, BIND_AUTO_CREATE);
             fireEvent(Event.ACTIVATE, null);
             Log.i("LOG_TAG", "service started!");
-            context.startService(intent);
+            // Start the service
+            context.getApplicationContext().startForegroundService(intent);
         } catch (Exception e) {
             fireEvent(Event.FAILURE, String.format("'%s'", e.getMessage()));
         }
