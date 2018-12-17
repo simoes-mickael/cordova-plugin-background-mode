@@ -20,7 +20,7 @@
  */
 
 package de.appplant.cordova.plugin.background;
-
+import android.util.Log;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
