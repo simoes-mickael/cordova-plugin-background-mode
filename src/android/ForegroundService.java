@@ -117,7 +117,7 @@ public class ForegroundService extends Service {
        
       
        
-        if (Build.VERSION.SDK_INT >= 26) {
+       /*  if (Build.VERSION.SDK_INT >= 26) { */
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             String channelId = createNotificationChannel(notificationManager);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
@@ -129,9 +129,9 @@ public class ForegroundService extends Service {
 
             startForeground(NOTIFICATION_ID, notification);
 
-        } else {           
+        /* } else {           
             startForeground(NOTIFICATION_ID, makeNotification());
-        }
+        } */
        
        
 
