@@ -112,26 +112,22 @@ public class ForegroundService extends Service {
      * by the OS.
      */
     private void keepAwake() {
-        JSONObject settings = BackgroundMode.getSettings();
-        boolean isSilent    = settings.optBoolean("silent", false);
-       
-        mNotifyManager = (NotificationManager) mActivity.getSystemService(Context.NOTIFICATION_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) createChannel(mNotifyManager);
-        mBuilder = new NotificationCompat.Builder(mActivity, "YOUR_TEXT_HERE").setSmallIcon(android.R.drawable.stat_sys_download).setColor
-                (ContextCompat.getColor(mActivity, R.color.colorNotification)).setContentTitle("YOUR_TITLE_HERE").setContentText("YOUR_DESCRIPTION_HERE");
-        mNotifyManager.notify(100, mBuilder.build());
-       
-       /*  if (Build.VERSION.SDK_INT >= 26) { */
-           
-               /*  NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-                mBuilder.setSmallIcon(R.drawable.star_on);
-                mBuilder.setContentTitle("Notification Alert, Click Me!");
-                mBuilder.setContentText("Hi, This is Android Notification Detail!");
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-    
-                // notificationID allows you to update the notification later on.
-                mNotificationManager.notify(100, mBuilder.build()); */
-                startForeground(100, mBuilder.mNotification);
+        Intent notificationIntent = new Intent(this, WorkoutActivity.class);
+        PendingIntent pendingIntent=PendingIntent.getActivity(this,0,notificationIntent,0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this,1)
+                .setSmallIcon(R.drawable.ic_menu_rotate)
+                .setContentTitle("TEST")
+                .setContentText("HELLO")
+                .setTicker("TICKER") 
+                .setContentIntent(pendingIntent);
+        Notification notification=builder.build();
+        
+            NotificationChannel channel = new NotificationChannel(1, "MyBacchus", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription("NOTIFICATION_CHANNEL_DESC");
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        
+        startForeground(NOTIFICATION_ID, notification);
             
 
         /* } else {           
@@ -147,18 +143,6 @@ public class ForegroundService extends Service {
                 PARTIAL_WAKE_LOCK, "BackgroundMode");
 
         wakeLock.acquire();
-    }
-
-    private String createNotificationChannel(NotificationManager notificationManager){
-        String name = "FileDownload";
-        String description = "Notifications for download status";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-        NotificationChannel mChannel = new NotificationChannel(name, name, importance);
-        mChannel.setDescription(description);
-        mChannel.enableLights(true);
-        mChannel.setLightColor(Color.BLUE);
-        notificationManager.createNotificationChannel(mChannel);
     }
 
     /* Stop background mode.
